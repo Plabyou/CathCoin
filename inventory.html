@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - Coupons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="material/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffae00; 
+            color: #fff; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .inventory-container {
+            margin: 10px auto;
+            max-width: 600px;
+        }
+
+        .inventory-item {
+            margin: 10px auto;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #000000; 
+            border-radius: 12px;
+            background-color: #333030; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            width: 80%;
+        }
+
+        .inventory-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .inventory-detail {
+            display: flex;
+            align-items: center;
+        }
+
+        .inventory-image img {
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .inventory-item h4 {
+            margin: 0;
+            font-size: 18px;
+            color: #f2f2f2;
+        }
+
+        .use-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .use-button:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 600px) {
+            .inventory-container {
+                max-width: 100%;
+            }
+
+            .use-button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .inventory-item h4 {
+                font-size: 16px;
+            }
+        }
+
+    .inventory-container {
+        margin: 10px auto;
+        max-width: 600px;
+        max-height: 400px; /* Set max height */
+        overflow-y: auto; /* Enable vertical scrolling */
+        padding-right: 10px; /* Adjust for scrollbar */
+    }
+
+    /* Hide scrollbar for WebKit browsers */
+    .inventory-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .inventory-container::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 4px;
+    }
+
+    .inventory-container::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    </style>
+</head>
+<body>
+
+    <h2>🎒 Your Inventory (Coupons)</h2>
+
+    <div class="inventory-container" id="inventory-list">
+        <p>Loading coupons...</p>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>HOME</span>
+        </a>
+        <a href="task.html" class="nav-item">
+            <i class="fas fa-tasks"></i>
+            <span>TASKS</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>SHOP</span>
+        </a>
+        <a href="inventory.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>INVENTORY</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadInventory();
+        });
+    
+        function loadInventory() {
+            let inventory = JSON.parse(localStorage.getItem('inventory') || "[]");
+            let inventoryList = document.getElementById('inventory-list');
+            inventoryList.innerHTML = "";
+    
+            if (inventory.length === 0) {
+                inventoryList.innerHTML = "<p>No coupons in inventory.</p>";
+                return;
+            }
+    
+            inventory.forEach((item, index) => {
+                let couponImage = "";
+    
+                // Ensure correct file paths
+                switch (item) {
+                    case "5% Discount":
+                        couponImage = "material/images/1.png";
+                        break;
+                    case "25% Discount":
+                        couponImage = "material/images/2.png";
+                        break;
+                    case "50% Discount":
+                        couponImage = "material/images/3.png";
+                        break;
+                    case "75% Discount":
+                        couponImage = "material/images/4.png";
+                        break;
+                    case "100% Discount":
+                        couponImage = "material/images/5.png";
+                        break;
+                    default:
+                        couponImage = "material/images/default.png"; // Fallback image
+                }
+    
+                let div = document.createElement('div');
+                div.className = "inventory-item";
+                div.innerHTML = `
+                    <div class="inventory-detail">
+                        <div class="inventory-image">
+                            <img src="${couponImage}" width="45px" alt="${item}">
+                        </div>
+                        <h4>${item}</h4>
+                    </div>
+                    <button class="use-button" onclick="useCoupon(${index})">✔️ Use</button>
+                `;
+                inventoryList.appendChild(div);
+            });
+        }
+    
+        function useCoupon(index) {
+            let inventory = JSON.parse(localStorage.getItem('inventory') || "[]");
+            if (index >= 0 && index < inventory.length) {
+                alert(`You have used a ${inventory[index]} coupon!`);
+                inventory.splice(index, 1);
+                localStorage.setItem('inventory', JSON.stringify(inventory));
+                loadInventory();
+            }
+        }
+    </script>
+    
+
+
+</body>
+</html>

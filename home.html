@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Tasks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="material/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffae00; 
+            color: #fff; 
+            margin: 0;
+            padding: 0;
+        }
+
+        #balance-container, #points-container {
+            margin: 20px;
+            font-size: 18px;
+        }
+
+        .task-container {
+            margin: 10px auto;
+            max-width: 600px;
+        }
+
+        .task {
+            margin: 10px auto;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #000000; 
+            border-radius: 12px;
+            background-color: #333030; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            width: 80%;
+        }
+
+        .task:hover {
+            transform: translateY(-5px);
+        }
+
+        .task-detail {
+            display: flex;
+            align-items: center;
+        }
+
+        .task-image img {
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .task h4 {
+            margin: 0;
+            font-size: 18px;
+            color: #f2f2f2;
+        }
+
+        .task-data {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .task-button {
+            background-color: #ffffff; 
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .task-button:hover {
+            background-color: #a2aaa0;
+        }
+
+        .task-button:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+        }
+
+    .task-container {
+        margin: 10px auto;
+        max-width: 600px;
+        max-height: 400px; /* Set max height */
+        overflow-y: auto; /* Enable vertical scrolling */
+        padding-right: 10px; /* Adjust for scrollbar */
+    }
+
+    /* Hide scrollbar for WebKit browsers */
+    .task-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .task-container::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 4px;
+    }
+
+    .task-container::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    </style>
+</head>
+<body>
+    <div id="balance-container">
+        <h2><b></b></h2>
+        <span id="balance">0</span>😼 Total CathCoins
+    </div>
+    <br>
+    <div id="points-container">
+        <h2><b></b></h2>
+        <span id="points">0</span>🎉 Total Points
+    </div>
+    <br>
+    <div class="task-container">
+        <div class="task">
+            <div class="task-detail">
+                <div class="task-image">
+                    <img src="material/images/logo.png" width="45px" alt="">
+                </div>
+                <div>
+                    <h4>claim rewards</h4>
+                    <div class="task-data">
+                        <img src="material/images/logo.png" width="20px" alt="Coin Icon">
+                        <h5>300</h5>
+                    </div>
+                </div>
+            </div>
+            <button class="task-button" id="task1" onclick="completeTask(300, 'reword.html', 'task1')">😼 claim</button>
+        </div>
+        <div class="task">
+            <div class="task-detail">
+                <div class="task-image">
+                    <img src="material/images/logo.png" width="45px" alt="">
+                </div>
+                <div>
+                    <h4>verify and earn</h4>
+                    <div class="task-data">
+                        <img src="material/images/logo.png" width="20px" alt="Coin Icon">
+                        <h5>200</h5>
+                    </div>
+                </div>
+            </div>
+            <button class="task-button" id="task2" onclick="completeTask(200, 'verify.html', 'task2')">😼 claim</button>
+        </div>
+        <div class="task">
+            <div class="task-detail">
+                <div class="task-image">
+                    <img src="material/images/logo.png" width="45px" alt="">
+                </div>
+                <div>
+                    <h4>Exchange Coins for Points</h4>
+                    <div class="task-data">
+                        <img src="material/images/logo.png" width="20px" alt="Coin Icon">
+                        <h5>1000 Coins = 1 Point</h5>
+                    </div>
+                </div>
+            </div>
+            <button class="task-button" onclick="exchangeCoins()">😼 Exchange</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>HOME</span>
+        </a>
+            <a href="task.html" class="nav-item">
+            <i class="fas fa-tasks"></i>
+            <span>TASKS</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-shopping-cart"></i>
+            <span>SHOP</span>
+        </a>
+        <a href="inventory.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>INVENTORY</span>
+        </a>
+        </nav>
+
+    <script>
+        function completeTask(amount, redirectPage, taskId) {
+            let balance = parseInt(localStorage.getItem('balance')) || 0;
+            balance += amount;
+            localStorage.setItem('balance', balance);
+            localStorage.setItem(taskId, 'completed');
+            window.location.href = redirectPage;
+        }
+
+        function exchangeCoins() {
+            let balance = parseInt(localStorage.getItem('balance')) || 0;
+            let points = parseInt(localStorage.getItem('points')) || 0;
+            if (balance >= 1000) {
+                balance -= 1000;
+                points += 1;
+                localStorage.setItem('balance', balance);
+                localStorage.setItem('points', points);
+                alert("You have exchanged 1000 coins for 1 point!");
+                location.reload();
+            } else {
+                alert("Not enough coins to exchange!");
+            }
+        }
+
+        document.getElementById('balance').innerText = localStorage.getItem('balance') || 0;
+        document.getElementById('points').innerText = localStorage.getItem('points') || 0;
+        
+        if (localStorage.getItem('task1') === 'completed') {
+            document.getElementById('task1').disabled = true;
+        }
+        if (localStorage.getItem('task2') === 'completed') {
+            document.getElementById('task2').disabled = true;
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            checkAndRefreshTasks(); // Check and refresh tasks at 8:00 AM
+            loadUserData(); // Load user data like balance and task status
+        });
+    
+        function checkAndRefreshTasks() {
+            let lastRefreshTime = localStorage.getItem("lastRefreshTime");
+            let now = new Date();
+            let currentDate = now.toDateString(); // Get today's date as a string
+            let currentHour = now.getHours();
+            let targetTime = new Date();
+            
+            // Set target time to 8:00 AM today
+            targetTime.setHours(8, 0, 0, 0);  
+    
+            if (lastRefreshTime !== currentDate && now >= targetTime) {
+                resetTasks(); // Reset tasks if it's 8:00 AM or later and not yet reset today
+                localStorage.setItem("lastRefreshTime", currentDate); // Update last refresh date
+            } else {
+                let timeUntilRefresh = targetTime - now;
+                if (timeUntilRefresh > 0) {
+                    setTimeout(resetTasks, timeUntilRefresh); // Schedule reset at 8:00 AM
+                }
+            }
+        }
+    
+        function resetTasks() {
+            localStorage.removeItem("task1");
+            localStorage.removeItem("task2");
+            document.getElementById("task1").disabled = false;
+            document.getElementById("task2").disabled = false;
+            console.log("Tasks have been reset at 8:00 AM!");
+        }
+    
+        function completeTask(amount, redirectPage, taskId) {
+            let balance = parseInt(localStorage.getItem('balance')) || 0;
+            balance += amount;
+            localStorage.setItem('balance', balance);
+            localStorage.setItem(taskId, 'completed');
+            window.location.href = redirectPage;
+        }
+    
+        function exchangeCoins() {
+            let balance = parseInt(localStorage.getItem('balance')) || 0;
+            let points = parseInt(localStorage.getItem('points')) || 0;
+            if (balance >= 1000) {
+                balance -= 1000;
+                points += 1;
+                localStorage.setItem('balance', balance);
+                localStorage.setItem('points', points);
+                alert("You have exchanged 1000 coins for 1 point!");
+                location.reload();
+            } else {
+                alert("Not enough coins to exchange!");
+            }
+        }
+    
+        function loadUserData() {
+            document.getElementById('balance').innerText = localStorage.getItem('balance') || 0;
+            document.getElementById('points').innerText = localStorage.getItem('points') || 0;
+    
+            if (localStorage.getItem('task1') === 'completed') {
+                document.getElementById('task1').disabled = true;
+            }
+            if (localStorage.getItem('task2') === 'completed') {
+                document.getElementById('task2').disabled = true;
+            }
+        }
+    </script>
+    
+</body>
+</html>
